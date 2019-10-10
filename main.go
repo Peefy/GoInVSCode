@@ -12,6 +12,10 @@ func variables()  {
   fmt.Printf("%d %s %d\n", age, str, sum)
 }
 
+func strings() {
+  fmt.Printf("123" + "456" + "789")
+}
+
 func main() {
   // main.go
   fmt.Println("Hello Go in Vs Code!")

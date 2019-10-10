@@ -67,3 +67,17 @@ mahesh   kumar   abc   move_name   a_123
 myname50   _temp   j   a23b9   retVal
 
 ```
+
+**字符串链接**
+
+Go 语言的字符串可以通过 **+** 实现：
+
+```go
+
+package main
+import "fmt"
+func main() {
+    fmt.Println("Google" + "Runoob")
+}
+
+```
