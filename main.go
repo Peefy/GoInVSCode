@@ -13,13 +13,14 @@ func variables()  {
 }
 
 func strings() {
-  fmt.Printf("123" + "456" + "789")
+  fmt.Printf("123" + "456" + "789" + "\n")
 }
 
 func main() {
   // main.go
   fmt.Println("Hello Go in Vs Code!")
   variables()
+  strings()
   mylib.PrintInfo()
   // fmt.Println(Add(1, 2), Sub(1, 2))
 }
