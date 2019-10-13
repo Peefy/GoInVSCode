@@ -663,4 +663,80 @@ if 嵌套语句 |	可以在 if 或 else if 语句中嵌入一个或多个 if 或
 switch 语句	 | switch 语句用于基于不同条件执行不同动作。
 select 语句	| select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行。
 
+```go
+
+   num := 10
+   if num < 20 {
+    println("num < 20")
+   }
+   else {
+    println("num >= 20")
+   }
+
+   var marks int = 90
+
+   switch marks {
+      case 90: grade = "A"
+      case 80: grade = "B"
+      case 50,60,70 : grade = "C"
+      default: grade = "D"  
+   }
+
+```
+
+**Go语言selec语句**
+
+select 是 Go 中的一个控制结构，类似于用于通信的 switch 语句。每个 case 必须是一个通信操作，要么是发送要么是接收。
+
+select 随机执行一个可运行的 case。如果没有 case 可运行，它将阻塞，直到有 case 可运行。一个默认的子句应该总是可运行的。
+
+*select语法*
+
+```go
+select {
+    case communication clause  :
+       statement(s);      
+    case communication clause  :
+       statement(s); 
+    /* 你可以定义任意数量的 case */
+    default : /* 可选 */
+       statement(s);
+}
+```
+
+* 每个 case 都必须是一个通信
+* 所有 channel 表达式都会被求值
+* 所有被发送的表达式都会被求值
+* 如果任意某个通信可以进行，它就执行，其他被忽略。
+* 如果有多个 case 都可以运行，Select 会随机公平地选出一个执行。其他不会执行。否则
+1. 如果有 default 子句，则执行该语句。
+2. 如果没有 default 子句，select 将阻塞，直到某个通信可以运行；Go 不会重新对 channel 或值进行求值。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var c1, c2, c3 chan int
+   var i1, i2 int
+   select {
+      case i1 = <-c1:
+         fmt.Printf("received ", i1, " from c1\n")
+      case c2 <- i2:
+         fmt.Printf("sent ", i2, " to c2\n")
+      case i3, ok := (<-c3):  // same as: i3, ok := <-c3
+         if ok {
+            fmt.Printf("received ", i3, " from c3\n")
+         } else {
+            fmt.Printf("c3 is closed\n")
+         }
+      default:
+         fmt.Printf("no communication\n")
+   }    
+}
+```
+
 *注意：Go没有三目运算符?:*
+
+#

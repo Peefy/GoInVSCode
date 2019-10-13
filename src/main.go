@@ -84,6 +84,24 @@ func operators() {
    a=21   // 为了方便测试，a 这里重新赋值为 21
    a--
    fmt.Printf("第七行 - a 的值为 %d\n", a )
+
+   num := 10
+   if num < 20 {
+    println("num < 20")
+   }
+   else {
+    println("num >= 20")
+   }
+
+   var marks int = 90
+
+   switch marks {
+      case 90: grade = "A"
+      case 80: grade = "B"
+      case 50,60,70 : grade = "C"
+      default: grade = "D"  
+   }
+
 }
 
 func main() {
