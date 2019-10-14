@@ -88,12 +88,12 @@ func operators() {
    num := 10
    if num < 20 {
     println("num < 20")
-   }
-   else {
+   } else {
     println("num >= 20")
    }
 
    var marks int = 90
+   grade := "None"
 
    switch marks {
       case 90: grade = "A"
@@ -101,6 +101,33 @@ func operators() {
       case 50,60,70 : grade = "C"
       default: grade = "D"  
    }
+   println(grade)
+
+}
+
+func control() {
+  var b int = 15
+  var a int
+
+  numbers := [6]int{1, 2, 3, 5}
+
+  /* for 循环 */
+  for a := 0; a < 10; a++ {
+     fmt.Printf("a 的值为: %d\n", a)
+  }
+
+  for a < b {
+     a++
+     fmt.Printf("a 的值为: %d\n", a)
+  }
+
+  for i,x := range numbers {
+     fmt.Printf("第 %d 位 x 的值 = %d\n", i, x)
+  }  
+
+  for i:= range numbers {
+    fmt.Printf("第 %d 位 x 的值 = %d\n", i, i)
+  }  
 
 }
 
@@ -110,6 +137,7 @@ func main() {
   variables()
   strings()
   operators()
+  control() 
   mylib.PrintInfo()
   // fmt.Println(Add(1, 2), Sub(1, 2))
   println("Hello End Go in Vs Code!")
