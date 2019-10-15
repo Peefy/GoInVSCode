@@ -105,7 +105,7 @@ func operators() {
 
 }
 
-func control() {
+func controls() {
   var b int = 15
   var a int
 
@@ -156,13 +156,68 @@ func control() {
 
 }
 
+func getSequence() func() int {
+   i := 0
+   return func() int {
+      i += 1
+      return i  
+   }
+}
+
+type Circle struct {
+   radius float64
+}
+
+func (c Circle) getArea() float64 {
+   //c.radius 即为 Circle 类型对象中的属性
+   return 3.14 * c.radius * c.radius
+}
+
+func functions() {
+   maxfunc := func (num1, num2 int) int {
+      var result int
+      if num1 > num2 {
+         result = num1
+      } else {
+         result = num2
+      }
+      return result
+   }
+
+   swap := func (x, y string) (string, string) {
+      return y, x //函数可以返回多个值
+   }
+
+   println(maxfunc(10, 20))
+   a, b := swap("DuGu", "GuDu")
+   println(a, b)
+   /* nextNumber 为一个函数，函数 i 为 0 */
+   nextNumber := getSequence()  
+
+   /* 调用 nextNumber 函数，i 变量自增 1 并返回 */
+   fmt.Println(nextNumber())
+   fmt.Println(nextNumber())
+   fmt.Println(nextNumber())
+   
+   /* 创建新的函数 nextNumber1，并查看结果 */
+   nextNumber1 := getSequence()  
+   fmt.Println(nextNumber1())
+   fmt.Println(nextNumber1())
+
+   var c Circle
+   c.radius = 10
+   println("area of c is", c.getArea())
+
+}
+
 func main() {
   // main.go
   fmt.Println("Hello Go in Vs Code!")
   variables()
   strings()
   operators()
-  control() 
+  controls() 
+  functions()
   mylib.PrintInfo()
   // fmt.Println(Add(1, 2), Sub(1, 2))
   println("Hello End Go in Vs Code!")
