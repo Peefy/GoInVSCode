@@ -125,9 +125,34 @@ func control() {
      fmt.Printf("第 %d 位 x 的值 = %d\n", i, x)
   }  
 
-  for i:= range numbers {
+  for i := range numbers {
     fmt.Printf("第 %d 位 x 的值 = %d\n", i, i)
   }  
+
+  a = 10
+  for a < 20 {
+    println("a 的值为：", a)
+    a++
+    if a == 12 {
+       println("a continue")
+       continue
+    }
+    if a > 15 {
+       println("a break")
+       break
+    }
+ }
+
+ a = 10
+ LOOP: for a < 20 {
+    if a == 15 {
+       /* 跳过迭代 */
+       a = a + 1
+       goto LOOP
+    }
+    fmt.Printf("a的值为 : %d\n", a)
+    a++    
+ }
 
 }
 

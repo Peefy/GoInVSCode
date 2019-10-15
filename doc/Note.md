@@ -763,8 +763,43 @@ func main() {
       fmt.Printf("a 的值为: %d\n", a)
    }
 
-   for i,x:= range numbers {
+   for i,x := range numbers {
       fmt.Printf("第 %d 位 x 的值 = %d\n", i,x)
    }  
+}
+```
+
+**Go循环控制语句**
+
+控制语句|描述
+-|-
+break语句 | 经常用于中断当前 for 循环或跳出 switch 语句
+continue 语句 | 跳过当前循环的剩余语句，然后继续进行下一轮循环。
+goto语句 | 将控制转移到被标记的语句。
+
+```go
+var a int = 10
+for a < 20 {
+   println("a 的值为：", a)
+   a++
+   if a == 12 {
+      println("a continue")
+      continue
+   }
+   if a > 15 {
+      println("a break")
+      break
+   }
+}
+
+a = 10
+LOOP: for a < 20 {
+   if a == 15 {
+      /* 跳过迭代 */
+      a = a + 1
+      goto LOOP
+   }
+   fmt.Printf("a的值为 : %d\n", a)
+   a++    
 }
 ```
