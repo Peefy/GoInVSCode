@@ -954,3 +954,218 @@ func (c Circle) getArea() float64 {
 }
 ```
 
+**Go语言变量作用域**
+
+作用域为已声明标识符所表示的常量、类型、变量、函数或包在源代码中的作用范围。
+
+Go语言中变量可以在三个地方声明：
+
+* 函数内定义的变量称为局部变量
+* 函数外定义的变量称为全局变量
+* 函数定义中的变量称为形式参数
+
+**局部变量**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var a, b, c int
+
+   a = 10
+   b = 20
+   c = a + b
+
+   println("a = %d, b = %d, c = %d", a, b, c)
+}
+```
+
+**全局变量**
+
+Go 语言程序中全局变量与局部变量名称可以相同，但是函数内的局部变量会被优先考虑。实例如下：
+
+```go
+
+package main
+
+import "fmt"
+
+func main() {
+   var g int = 10
+   println("g = %d\n", g)
+}
+
+```
+
+**形式参数**
+
+形式参数会作为函数的局部变量来使用。实例如下：
+
+```go
+
+package main
+
+import "fmt"
+
+/* 声明全局变量 */
+var a int = 20;
+
+func main() {
+   /* main 函数中声明局部变量 */
+   var a int = 10
+   var b int = 20
+   var c int = 0
+
+   fmt.Printf("main()函数中 a = %d\n",  a);
+   c = sum( a, b);
+   fmt.Printf("main()函数中 c = %d\n",  c);
+}
+
+/* 函数定义-两数相加 */
+func sum(a, b int) int {
+   fmt.Printf("sum() 函数中 a = %d\n",  a);
+   fmt.Printf("sum() 函数中 b = %d\n",  b);
+
+   return a + b;
+}
+
+```
+
+**初始化局部和全局变量**
+
+不同类型的局部和全局变量默认值为：
+
+数据类型|初始化默认值
+-|-
+int|0
+float32|0
+pointer|nil
+
+
+**Go语言数组**
+
+Go语言提供了数组类型的数据结构
+
+数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整型、字符串或者自定义类型。
+
+相对于去声明number0, number1, number2, ..., number99的变量，更加方便且易于扩展。
+
+**声明数组**
+
+Go 语言数组声明需要指定元素类型及元素个数，语法格式如下：
+
+```go
+var variable_name [SIZE] variable_type
+```
+
+以上为一维数组的定义方式。例如以下定义了数组 balance 长度为 10 类型为 float32：
+
+```go
+var balance [10] float32
+```
+
+**初始化数组**
+
+```go
+var balance = [5]float32{1000.0, 2.0, 3.4, 7.0, 50.0}
+```
+
+初始化数组中 \{\} 中的元素个数不能大于 \[\] 中的数字。
+
+如果忽略 \[\] 中的数字不设置数组大小，Go 语言会根据元素的个数来设置数组的大小：
+
+```go
+var balance = [...]float32{1000.0, 2.0, 3.4, 7.0, 50.0}
+```
+
+**访问数组元素**
+
+数组元素可以通过索引（位置）来读取。格式为数组名后加中括号，中括号中为索引的值。例如：
+
+```go
+var salary float32 = balance[9]
+```
+
+```go
+func arrays() {
+   var n [10]int /* n 是一个长度为 10 的数组 */
+   var i, j int
+
+   /* 为数组 n 初始化元素 */        
+   for i = 0; i < 10; i++ {
+      n[i] = i + 100 /* 设置元素为 i + 100 */
+   }
+
+   /* 输出每个数组元素的值 */
+   for j = 0; j < 10; j++ {
+      fmt.Printf("Element[%d] = %d ", j, n[j] )
+   }
+   println("")
+}
+```
+
+**二维数组**
+
+```go
+var variable_name [SIZE1][SIZE2]...[SIZEN] variable_type
+```
+
+```go
+var threedim [5][10][4]int
+```
+
+**二维数组**
+
+二维数组是最简单的多维数组，二维数组本质上是由一维数组组成的。二维数组定义方式如下
+
+```go
+var arrayName [x][y]variable_type
+```
+
+**初始化二维数组**
+
+多维数组可通过大括号来初始值。
+
+```go
+a = [3][4]int {
+   {0, 1, 2, 3}, 
+   {4, 5, 6, 7}, 
+   {8, 9, 10, 11}, 
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   /* 数组 - 5 行 2 列*/
+   var a = [5][2]int{ {0,0}, {1,2}, {2,4}, {3,6},{4,8}}
+   var i, j int
+
+   /* 输出数组元素 */
+   for  i = 0; i < 5; i++ {
+      for j = 0; j < 2; j++ {
+         fmt.Printf("a[%d][%d] = %d\n", i,j, a[i][j] )
+      }
+   }
+}
+```
+
+**Go语言指针**
+
+Go语言的取地址符是&，放到一个变量前使用就会返回相应变量的内存地址。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var a int = 10  
+   fmt.Printf("变量的地址: %x\n", &a)
+}
+```
