@@ -1169,3 +1169,386 @@ func main() {
    fmt.Printf("变量的地址: %x\n", &a)
 }
 ```
+
+一个指针变量指向了一个值的内存地址，类似于变量和常量，在使用指针前需要声明指针，声明格式为：
+
+```go
+var var_name *var_type
+var ip *int 
+var fp *float32
+```
+
+**如何使用指针**
+
+* 定义指针变量
+* 为指针变量赋值
+* 访问指针变量中指向地址的值
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var a int= 20   /* 声明实际变量 */
+   var ip *int        /* 声明指针变量 */
+
+   ip = &a  /* 指针变量的存储地址 */
+
+   fmt.Printf("a 变量的地址是: %x\n", &a  )
+
+   /* 指针变量的存储地址 */
+   fmt.Printf("ip 变量储存的指针地址: %x\n", ip )
+
+   /* 使用指针访问值 */
+   fmt.Printf("*ip 变量的值: %d\n", *ip )
+}
+```
+
+**Go空指针**
+
+当一个指针被定义后没有分配到任何变量，它的值为nil,
+
+nil指针也称为空指针
+
+nil在概念上和其他语言的null,None,nil,NULL一样，都代表零值或空值
+
+一个指针变量通常缩写为ptr
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var  ptr *int
+
+   fmt.Printf("ptr 的值为 : %x\n", ptr  )
+}
+```
+
+**Go语言指针数组**
+
+ptr 为整型指针数组。因此每个元素都指向了一个值。以下实例的三个整数将存储在指针数组中：
+
+```go
+package main
+
+import "fmt"
+
+const MAX int = 3
+
+func main() {
+   a := []int{10,100,200}
+   var i int
+   var ptr [MAX]*int;
+
+   for i = 0; i < MAX; i++ {
+      ptr[i] = &a[i] /* 整数地址赋值给指针数组 */
+   }
+
+   for i = 0; i < MAX; i++ {
+      fmt.Printf("a[%d] = %d\n", i,*ptr[i] )
+   }
+}
+```
+
+**Go语言指向指针的指针**
+
+如果一个指针变量存放的又是另一个指针变量的地址，则称这个指针变量为指向指针的指针变量。
+
+当定义一个指向指针的指针变量时，第一个指针存放第二个指针的地址，第二个指针存放变量的地址：
+
+指向指针的指针变量声明格式如下：
+
+```go
+var ptr **int
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+
+   var a int
+   var ptr *int
+   var pptr **int
+
+   a = 3000
+
+   /* 指针 ptr 地址 */
+   ptr = &a
+
+   /* 指向指针 ptr 地址 */
+   pptr = &ptr
+
+   /* 获取 pptr 的值 */
+   fmt.Printf("变量 a = %d\n", a )
+   fmt.Printf("指针变量 *ptr = %d\n", *ptr )
+   fmt.Printf("指向指针的指针变量 **pptr = %d\n", **pptr)
+}
+```
+
+Go三重指针
+
+```go
+package main
+
+import "fmt"
+func main(){
+    var a int = 5
+    //把ptr指针 指向ss所在地址
+    var ptr *int = &a
+    //开辟一个新的指针，指向ptr指针指向的地方
+    var pts *int = ptr 
+    //二级指针，指向一个地址，这个地址存储的是一级指针的地址
+    var pto **int = &ptr
+    //三级指针，指向一个地址，这个地址存储的是二级指针的地址，二级指针同上
+    var pt3 ***int = &pto
+    fmt.Println("a的地址:",&a,
+                "\n 值", a, "\n\n",
+
+                "ptr指针所在地址:",&ptr,
+                "\n ptr指向的地址:",ptr,
+                "\n ptr指针指向地址对应的值",*ptr,"\n\n", 
+
+                "pts指针所在地址:",&pts,
+                "\n pts指向的地址:", pts,
+                "\n pts指针指向地址对应的值:",*pts,"\n\n", 
+
+                "pto指针所在地址:",&pto,
+                "\n pto指向的指针（ptr）的存储地址:",pto, 
+                "\n pto指向的指针（ptr）所指向的地址: " ,*pto, 
+                "\n pto最终指向的地址对应的值（a）",**pto,"\n\n",
+
+                "pt3指针所在的地址:",&pt3,
+                "\n pt3指向的指针（pto）的地址:",pt3,//等于&*pt3,
+                "\n pt3指向的指针（pto）所指向的指针的（ptr）地址", *pt3, //等于&**pt3,
+                "\n pt3指向的指针（pto）所指向的指针（ptr）所指向的地址（a）:",**pt3, //等于&***pt3,
+                "\n pt3最终指向的地址对应的值（a）", ***pt3)
+}
+```
+
+
+**Go语言结构体**
+
+Go语言中数组可以存储同一类型的数据，但在结构体中我们可以为不同项定义不同的数据类型
+
+结构体是由一系列具有相同类型或不同类型的数据构成的数据集合。
+
+结构体表示一项记录，比如保存图书馆的书籍记录，每本书有以下属性：
+
+*定义结构体*-结构体定义需要使用 type 和 struct 语句。struct 语句定义一个新的数据类型，结构体有中有一个或多个成员。type 语句设定了结构体的名称。结构体的格式如下：
+
+```go
+type struct_variable_type struct {
+   member definition;
+   member definition;
+   ...
+   member definition;
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title string
+   author string
+   subject string
+   book_id int
+}
+
+
+func main() {
+
+    // 创建一个新的结构体
+    fmt.Println(Books{"Go 语言", "www.runoob.com", "Go 语言教程", 6495407})
+
+    // 也可以使用 key => value 格式
+    fmt.Println(Books{title: "Go 语言", author: "www.runoob.com", subject: "Go 语言教程", book_id: 6495407})
+
+    // 忽略的字段为 0 或 空
+   fmt.Println(Books{title: "Go 语言", author: "www.runoob.com"})
+}
+
+func (b *Books) GetTitle() string {    
+   return b.title    
+}
+
+```
+
+**Go语言切片(Slice)**
+
+Go语言切片是对数组的抽象，Go数组的长度不可改变，Go 数组的长度不可改变，在特定场景中这样的集合就不太适用，Go中提供了一种灵活，功能强悍的内置类型切片
+
+Go定义切片
+* 直接声明一个未指定大小的数组来切片
+* 使用make()函数来创建切片
+
+```go
+var identifier []type  // 1
+
+slice1 := make([]type, len) // 2
+
+make([]T, length, capacity)
+```
+
+**切片初始化**
+
+```go
+s := []int{1, 2, 3}
+```
+
+* 直接初始化切片，[]表示是切片类型，{1,2,3}初始化值依次是1,2,3.其cap=len=3
+
+```go
+s := arr[:] 
+```
+
+* 初始化切片s,是数组arr的引用
+
+```go
+s := arr[startIndex:endIndex] 
+```
+
+* 将arr中从下标startIndex到endIndex-1 下的元素创建为一个新的切片
+
+```go
+s := arr[startIndex:] 
+```
+
+* 默认 endIndex 时将表示一直到arr的最后一个元素
+
+```go
+s := arr[:endIndex] 
+```
+
+* 默认 startIndex 时将表示从arr的第一个元素开始
+
+```go
+s1 := s[startIndex:endIndex] 
+```
+
+* 通过切片s初始化切片s1
+
+```go
+s := make([]int, len, cap) 
+```
+
+通过内置函数make()初始化切片s,[]int 标识为其元素类型为int的切片
+
+
+**Go的len() 和 cap() 函数**
+
+切片是可索引的，并且可以由 len() 方法获取长度。
+
+切片提供了计算容量的方法 cap() 可以测量切片最长可以达到多少。
+
+以下为具体实例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var numbers = make([]int,3,5)
+
+   printSlice(numbers)
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+**空(nil)切片**
+
+一个切片在未初始化之前默认为 nil，长度为 0，实例如下：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var numbers []int
+
+   printSlice(numbers)
+
+   if(numbers == nil){
+      fmt.Printf("切片是空的")
+   }
+}
+
+func printSlice(x []int) {
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+**切片截取**
+
+可以通过设置下限及上限来设置截取切片 \[lower-bound:upper-bound\]，实例如下：
+
+**Go的append() 和 copy() 函数**
+
+如果想增加切片的容量，必须创建一个新的更大的切片并把原分片的内容都拷贝出来
+
+```go
+func slices() {
+   /* 打印切片函数 */
+   printSlice := func (x []int) {
+      fmt.Println("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+   }
+   /* 创建切片 */
+   numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8}
+   printSlice(numbers)
+   fmt.Println("numbers ==", numbers)
+   fmt.Println("")
+   /* 打印子切片从索引1(包含) 到索引4(不包含)*/
+   fmt.Println("numbers[1:4] ==", numbers[1:4])
+
+   /* 默认下限为 0*/
+   fmt.Println("numbers[:3] ==", numbers[:3])
+
+   /* 默认上限为 len(s)*/
+   fmt.Println("numbers[4:] ==", numbers[4:])
+
+   numbers1 := make([]int,0,5)
+   printSlice(numbers1)
+
+   /* 打印子切片从索引  0(包含) 到索引 2(不包含) */
+   number2 := numbers[:2]
+   printSlice(number2)
+
+   /* 打印子切片从索引 2(包含) 到索引 5(不包含) */
+   number3 := numbers[2:5]
+   printSlice(number3)
+
+
+   /* 向切片添加一个元素 */
+   numbers = append(numbers, 1)
+   /* 同时添加多个元素 */
+   numbers = append(numbers, 2,3,4)
+   /* 创建切片 numbers1 是之前切片的两倍容量*/
+   numbers4 := make([]int, len(numbers), (cap(numbers))*2)
+
+   /* 拷贝 numbers 的内容到 numbers1 */
+   copy(numbers4, numbers)
+
+}
+
+```
+
+**Go语言范围(Range)**
+
+Go语言中**range**关键字用于**for循环**中**迭代数组(array)**,**切片(slice)**,**通道(channel)**或**集合(map)**的元素。在数组和切片中它返回元素的索引和索引对应的值，在集合中返回key-value对应的key值
+
+```go
+
+```
