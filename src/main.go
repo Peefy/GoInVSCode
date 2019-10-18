@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import "unsafe"
+import (
+   "fmt"
+   "unsafe"
+   "time"
+)
 import "./package"
 
 // show usage of the go variable
@@ -53,6 +56,13 @@ func variables()  {
     cj
   )
   fmt.Println(ca, cb, ck, cj)
+
+  var sums int = 17
+  var count int = 5
+  var mean float32
+  mean = float32(sums) / float32(count)
+  println("mean 的值为：%f", mean)
+
 }
 
 func strings() {
@@ -355,6 +365,124 @@ func ranges() {
    }
 }
 
+func mapc() {
+   var countryCapitalMap map[string]string
+   countryCapitalMap = make(map[string]string)
+   /* map插入key - value对,各个国家对应的首都 */
+   countryCapitalMap [ "France" ] = "巴黎"
+   countryCapitalMap [ "Italy" ] = "罗马"
+   countryCapitalMap [ "Japan" ] = "东京"
+   countryCapitalMap [ "India " ] = "新德里"
+
+   /*使用键输出地图值 */
+   for country := range countryCapitalMap {
+      fmt.Println(country, "首都是", countryCapitalMap [country])
+   }
+
+   /*查看元素在集合中是否存在 */
+   capital, ok := countryCapitalMap [ "American" ] /*如果确定是真实的,则存在,否则不存在 */
+   /*fmt.Println(capital) */
+   /*fmt.Println(ok) */
+   if (ok) {
+      fmt.Println("American 的首都是", capital)
+   } else {
+      fmt.Println("American 的首都不存在")
+   }
+   
+   delete(countryCapitalMap, "France")
+
+}
+
+type Phone interface {
+   call() 
+}
+
+type NokiaPhone struct {
+}
+
+type IPhone struct {
+}
+
+func (nokiaPhone NokiaPhone) call() {
+   fmt.Println("I am Nokia, I can call you!")
+}
+
+func (iPhone IPhone) call() {
+   fmt.Println("I am iPhone, I can call you!")
+}
+
+func interfaces() {
+   var phone Phone
+   phone = new(NokiaPhone)
+   phone.call()
+   phone = new(IPhone)
+   phone.call()
+}
+
+// 定义一个 DivideError 结构
+type DivideError struct {
+   dividee int
+   divider int
+}
+
+// 实现 `error` 接口
+func (de *DivideError) Error() string {
+   strFormat := `
+   Cannot proceed, the divider is zero.
+   dividee: %d
+   divider: 0
+`
+   return fmt.Sprintf(strFormat, de.dividee)
+}
+
+// 定义 `int` 类型除法运算的函数
+func Divide(varDividee int, varDivider int) (result int, errorMsg string) {
+   if varDivider == 0 {
+           dData := DivideError{
+                   dividee: varDividee,
+                   divider: varDivider,
+           }
+           errorMsg = dData.Error()
+           return
+   } else {
+           return varDividee / varDivider, ""
+   }
+}
+
+func errors() {
+   if result, errorMsg := Divide(100, 10); errorMsg == "" {
+      fmt.Println("100/10 = ", result)
+   }
+   // 当被除数为零的时候会返回错误信息
+   if _, errorMsg := Divide(100, 0); errorMsg != "" {
+      fmt.Println("errorMsg is: ", errorMsg)
+   }
+}
+
+func gosay () {
+   println("go gosay")
+   time.Sleep(100 * time.Millisecond)
+   println("go gosay 100ms")
+}
+
+func sum(s []int, c chan int) {
+   sum := 0
+   for _, v := range s {
+           sum += v
+   }
+   c <- sum // 把 sum 发送到通道 c
+}
+
+func goroutines() {
+   go gosay()
+   c := make(chan int)
+   s := []int {0, 2, 3, 4, 5}
+   go sum(s[:len(s) / 2], c)
+   go sum(s[len(s) / 2:], c)
+   x, y := <-c, <-c
+   println("x + y =", x, y, x + y)
+}
+
 func main() {
   // main.go
   fmt.Println("Hello Go in Vs Code!")
@@ -378,6 +506,14 @@ func main() {
   slices()
   // Go range 关键字
   ranges()
+  // Go 语言Map集合
+  mapc()
+  // Go语言接口
+  interfaces()
+  // Go错误处理
+  errors()
+  // Go并发
+  goroutines()
   // Go包导入
   mylib.PrintInfo()
   println("Hello End Go in Vs Code!")

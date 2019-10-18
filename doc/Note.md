@@ -1550,5 +1550,332 @@ func slices() {
 Go语言中**range**关键字用于**for循环**中**迭代数组(array)**,**切片(slice)**,**通道(channel)**或**集合(map)**的元素。在数组和切片中它返回元素的索引和索引对应的值，在集合中返回key-value对应的key值
 
 ```go
+func ranges() {
+   nums := []int{1, 2, 3}
+   sum := 0
+   for _, num := range nums {
+      sum += num
+   }
+   println("the sum is", sum)
+   //在数组上使用range将传入index和值两个变量。
+   //上面那个例子我们不需要使用该元素的序号，所以我们使用空白符"_"省略了。有时侯我们确实需要知道它的索引。
+   for i, num := range nums {
+      if num == 3 {
+         println("the element 3 index:", i)
+      }
+   }
+   //range可以用在map的键值对上。
+   kvs := map[string]string{"a" : "apple", "d" : "dugu"}
+   for k, v := range kvs {
+      println("%s -> %s", k, v)
+   }
+   //range也可以用来枚举Unicode字符串。第一个参数是字符的索引，第二个是字符（Unicode的值）本身。
+   for i, c := range "DuGu" {
+      println(i, c)
+   }
+}
+```
 
+**Go语言Map(集合)**
+
+Map 是一种无序的键值对的集合。Map 最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。
+
+Map 是一种集合，所以我们可以像迭代数组和切片那样迭代它。不过，Map 是无序的，我们无法决定它的返回顺序，这是因为 Map 是使用 hash 表来实现的。
+
+```go
+/* 声明变量，默认 map 是 nil */
+var map_variable map[key_type][value_type]
+/* 使用 make 函数 */
+map_variable := make(map[key_data_type]value_data_type)
+```
+
+**Go delete()函数**
+
+delete() 函数用于删除集合的元素，参数为map和其对应的key。实例如下：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+      /* 创建map */
+   countryCapitalMap := map[string]string{"France": "Paris", "Italy": "Rome", "Japan": "Tokyo", "India": "New delhi"}
+
+   fmt.Println("原始地图")
+
+   /* 打印地图 */
+   for country := range countryCapitalMap {
+      fmt.Println(country, "首都是", countryCapitalMap [ country ])
+   }
+
+   /*删除元素*/ delete(countryCapitalMap, "France")
+   fmt.Println("法国条目被删除")
+
+   fmt.Println("删除元素后地图")
+
+   /*打印地图*/
+   for country := range countryCapitalMap {
+      fmt.Println(country, "首都是", countryCapitalMap [ country ])
+   }
+}
+```
+
+**Go语言递归函数**
+
+递归，就是在运行的过程中调用自己，可以用于计算阶乘，生成斐波那契数列等
+
+```go
+func recursion(x int) {
+   if x < 0:
+      return 
+   recursion(x - 1)
+}
+```
+
+**Go语言类型转换**
+
+```go
+package
+
+import "fmt"
+
+func main() {
+   var sum int = 17
+   var count int = 5
+   var mean float32
+   mean = float32(sum) / float32(count)
+   println("mean 的值为：%f", mean)
+}
+
+```
+
+**Go语言接口**
+
+Go语言提供了另外一种数据类型即接口，把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口
+
+```go
+type Phone interface {
+   call() 
+}
+
+type NokiaPhone struct {
+}
+
+type IPhone struct {
+}
+
+func (nokiaPhone NokiaPhone) call() {
+   fmt.Println("I am Nokia, I can call you!")
+}
+
+func (iPhone IPhone) call() {
+   fmt.Println("I am iPhone, I can call you!")
+}
+
+func interfaces() {
+   var phone Phone
+   phone = new(NokiaPhone)
+   phone.call()
+   phone = new(IPhone)
+   phone.call()
+}
+```
+
+**Go错误处理**
+
+Go 语言通过内置的错误接口提供了非常简单的错误处理机制。
+
+error类型是一个接口类型，这是它的定义：
+
+```go
+type error interface {
+    Error() string
+}
+```
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// 定义一个 DivideError 结构
+type DivideError struct {
+    dividee int
+    divider int
+}
+
+// 实现 `error` 接口
+func (de *DivideError) Error() string {
+    strFormat := `
+    Cannot proceed, the divider is zero.
+    dividee: %d
+    divider: 0
+`
+    return fmt.Sprintf(strFormat, de.dividee)
+}
+
+// 定义 `int` 类型除法运算的函数
+func Divide(varDividee int, varDivider int) (result int, errorMsg string) {
+    if varDivider == 0 {
+            dData := DivideError{
+                    dividee: varDividee,
+                    divider: varDivider,
+            }
+            errorMsg = dData.Error()
+            return
+    } else {
+            return varDividee / varDivider, ""
+    }
+}
+
+func main() {
+    // 正常情况
+    if result, errorMsg := Divide(100, 10); errorMsg == "" {
+            fmt.Println("100/10 = ", result)
+    }
+    // 当被除数为零的时候会返回错误信息
+    if _, errorMsg := Divide(100, 0); errorMsg != "" {
+            fmt.Println("errorMsg is: ", errorMsg)
+    }
+}
+```
+
+**Go并发**
+
+Go语言支持并发，只需要通过Go关键字来开启**goroutine**即可
+
+**goroutine**是轻量级线程，**goroutine**的调度是由 Golang 运行时进行管理的。
+
+Go 允许使用 go 语句开启一个新的运行期线程， 即 goroutine，以一个不同的、新创建的 goroutine 来执行一个函数。 同一个程序中的所有 goroutine 共享同一个地址空间。
+
+```go
+package main
+
+import (
+   "fmt"
+   "time"
+)
+
+func say(s string) {
+   for i := 0; i < 5; i++ {
+      time.Sleep(100 * time.Millisecond)
+      fmt.Println(s)
+   }
+}
+
+func main() {
+   go say("world")
+   say("hello")
+}
+```
+
+**通道(channel)**
+
+通道(channel)是用来传递数据的一个数据结构.
+
+通道可用于两个goroutine之间通过传递一个指定类型的值来同步运行和通讯。操作符\<-用于指定通道的方向，发送或接收。如果未指定方向，则为双向通道。
+
+```go
+ch <- v     // 把v发送到通道 ch
+v := <-ch   // 从ch接收数据，并把值赋给 v
+```
+
+声明一个通道很简单，使用**chan**关键字即可，通道在使用前必须先创建：
+
+```
+ch := make(chan int)
+```
+
+*注意：默认情况下，通道是不带缓冲区的。发送端发送数据，同时必须又接收端相应的接收数据。*
+
+```go
+package main
+
+import "fmt"
+
+func sum(s []int, c chan int) {
+        sum := 0
+        for _, v := range s {
+                sum += v
+        }
+        c <- sum // 把 sum 发送到通道 c
+}
+
+func main() {
+        s := []int{7, 2, 8, -9, 4, 0}
+
+        c := make(chan int)
+        go sum(s[:len(s)/2], c)
+        go sum(s[len(s)/2:], c)
+        x, y := <-c, <-c // 从通道 c 中接收
+
+        fmt.Println(x, y, x+y)
+}
+```
+
+**通道缓冲区**
+
+通道可以设置缓冲区，通过 make 的第二个参数指定缓冲区大小：
+
+带缓冲区的通道允许发送端的数据发送和接收端的数据获取处于异步状态，就是说发送端发送的数据可以放在缓冲区里面，可以等待接收端去获取数据，而不是立刻需要接收端去获取数据。
+
+不过由于缓冲区的大小是有限的，所以还是必须有接收端来接收数据的，否则缓冲区一满，数据发送端就无法再发送数据了。
+
+注意：如果通道不带缓冲，发送方会阻塞直到接收方从通道中接收了值。如果通道带缓冲，发送方则会阻塞直到发送的值被拷贝到缓冲区内；如果缓冲区已满，则意味着需要等待直到某个接收方获取到一个值。接收方在有值可以接收之前会一直阻塞。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // 这里我们定义了一个可以存储整数类型的带缓冲通道
+        // 缓冲区大小为2
+        ch := make(chan int, 2)
+
+        // 因为 ch 是带缓冲的通道，我们可以同时发送两个数据
+        // 而不用立刻需要去同步读取数据
+        ch <- 1
+        ch <- 2
+
+        // 获取这两个数据
+        fmt.Println(<-ch)
+        fmt.Println(<-ch)
+}
+```
+
+**Go遍历通道与关闭通道**
+
+如果通道接收不到数据后 ok 就为 false，这时通道就可以使用 close() 函数来关闭。
+
+```go
+package main
+
+import (
+        "fmt"
+)
+
+func fibonacci(n int, c chan int) {
+        x, y := 0, 1
+        for i := 0; i < n; i++ {
+                c <- x
+                x, y = y, x+y
+        }
+        close(c)
+}
+
+func main() {
+        c := make(chan int, 10)
+        go fibonacci(cap(c), c)
+        // range 函数遍历每个从通道接收到的数据，因为 c 在发送完 10 个
+        // 数据之后就关闭了通道，所以这里我们 range 函数在接收到 10 个数据
+        // 之后就结束了。如果上面的 c 通道不关闭，那么 range 函数就不
+        // 会结束，从而在接收第 11 个数据的时候就阻塞了。
+        for i := range c {
+                fmt.Println(i)
+        }
+}
 ```
