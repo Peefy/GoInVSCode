@@ -2,6 +2,8 @@
 
 > golang in vs code.
 
+## Note
+
 [Note](https://github.com/Peefy/GoInVSCode/blob/master/doc/Note.md)
 
 ## Thanks
