@@ -86,7 +86,7 @@ func main() {
 
 **Go关键字**
 
-Go|Go|关|键|字
+Go|关|键|字|Go
 -|-|-|-|-
 beaak|default|func|interface|select
 case |	defer|	go|	map|	struct
@@ -96,7 +96,7 @@ continue |	for|	import|	return|	var
 
 **Go预定义标识符**
 
-||||||||
+Go|预|定|义|标|识|符|Go|
 -|-|-|-|-|-|-|-|-
 append |	bool	|byte	|cap |	close|	complex|	complex64|	complex128|	uint16
 copy   |	false	|float32	|float64|	imag|	int|	int8|	int16|	uint32

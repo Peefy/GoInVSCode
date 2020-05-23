@@ -4,7 +4,7 @@
 
 ## Note
 
-[Note](https://github.com/Peefy/GoInVSCode/blob/master/doc/Note.md)
+[Go 笔记](https://github.com/Peefy/GoInVSCode/blob/master/doc/Note.md)
 
 ## Thanks
 
